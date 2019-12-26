@@ -10,6 +10,65 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State {
+  CameraController controller;
+  List cameras;
+  int selectedCameraIdx;
+  String imagePath;
+
+  @override
+void initState() {
+  super.initState();
+  
+  availableCameras().then((availableCameras) {
+    
+    cameras = availableCameras;
+    if (cameras.length > 0) {
+      setState(() {
+        
+        selectedCameraIdx = 0;
+      });
+
+      _initCameraController(cameras[selectedCameraIdx]).then((void v) {});
+    }else{
+      print("No camera available");
+    }
+  }).catchError((err) {
+   
+    print('Error: $err.code\nError Message: $err.message');
+  });
+}
+
+Future _initCameraController(CameraDescription cameraDescription) async {
+  if (controller != null) {
+    await controller.dispose();
+  }
+
+  
+  controller = CameraController(cameraDescription, ResolutionPreset.high);
+
+  
+  controller.addListener(() {
+   
+    if (mounted) {
+      setState(() {});
+    }
+
+    if (controller.value.hasError) {
+      print('Camera error ${controller.value.errorDescription}');
+    }
+  });
+
+  // 6
+  try {
+    await controller.initialize();
+  } on CameraException catch (e) {
+    _showCameraException(e);
+  }
+
+  if (mounted) {
+    setState(() {});
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +106,24 @@ class _CameraScreenState extends State {
   
   Widget _cameraPreviewWidget() {
     
-    return Container();
+    if (controller == null || !controller.value.isInitialized) {
+      return const Text(
+        'Loading',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w900,
+        ),
+      );
+    }
+
+    return AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        child: CameraPreview(controller),
+      );
   }
+
+  
 
   
   Widget _captureControlRowWidget(context) {
