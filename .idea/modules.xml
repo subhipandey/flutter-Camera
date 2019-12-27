@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/camapp.iml" filepath="$PROJECT_DIR$/camapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/camapp_android.iml" filepath="$PROJECT_DIR$/android/camapp_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/camerapp.iml" filepath="$PROJECT_DIR$/camerapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/camerapp_android.iml" filepath="$PROJECT_DIR$/android/camerapp_android.iml" />
     </modules>
   </component>
 </project>

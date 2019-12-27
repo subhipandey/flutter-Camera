@@ -1,4 +1,4 @@
-package com.example.camapp
+package com.example.camerapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
